@@ -29,27 +29,5 @@ You can refer to the following articles on **_basics of Git and Github and also 
 - Create a Pull Request which will be promptly reviewed and suggestions would be added to improve it.
 - Add Screenshots to help us know what this Script is all about.
 
-<h2 align=center> ✨ Contributors </h2>
-
-Thanks go to these **Wonderful People** 👨🏻‍💻:      🚀 **Contributions** of any kind are welcome! 
-<p>
-  <img src="https://api.vaunt.dev/v1/github/entities/Yashpatel191001/repositories/Amazing-Python-Scripts/contributors?format=svg&limit=54" height"250" />
-</p>
-
-<table>
-	<tr>
-		<td>
-			<a href="https://github.com/Yashpatel191001/Amazing-Python-Scripts/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Yashpatel191001/Amazing-Python-Scripts" />
-</a>
-		</td>
-	</tr>
-</table>
-
-
-## License
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Terms and conditions for use, reproduction and distribution are under the [MIT License](https://opensource.org/license/mit/).
 
 <h1 align=center>Happy Coding 👨‍💻 </h1>
