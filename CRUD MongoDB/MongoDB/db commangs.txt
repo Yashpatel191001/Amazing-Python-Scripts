@@ -1,0 +1,52 @@
+// create db
+
+use data_base_name
+
+// create collection
+
+db.createCollection("collection_name")
+
+//delete collection
+
+db.collection_name.drop()
+
+//delete db(deletes current db)
+
+db.dropDatabase()
+
+//insert datat in collection
+
+db.collection_name.insertOne({name:'m 21',brand:'Samsung',category:'mobile'})
+
+//see data in collection
+
+db.collection_name.find()
+db.collection_name.find({'__':'__'})
+
+//update data (we can also add later if we use branch for brand)
+
+db.collection_name.updateOne({name:"___"},{$set:{brand:'___'}})
+
+//delete data
+
+db.collection_name.deleteOne({brand:"apple"})
+
+
+
+
+
+const {MongoClient} = require('mongodb');
+const url = 'mongodb://l27.0.0.1:27017';
+const database='e-comm';
+const client= new MongoClient(url);
+
+async function getData(){
+    let result = await client.connect();
+    let db = result.db(database);
+    let collection = db.collection('products');
+    let response = await collection.find({}).toArray();
+    console.log(response);
+}
+
+getData();
+
