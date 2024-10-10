@@ -1,0 +1,132 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
+
+using namespace std;
+
+// Function to preprocess text: to lowercase and remove punctuations
+string preprocessText(const string& text) {
+    string processed = text;
+    // Convert to lowercase
+    transform(processed.begin(), processed.end(), processed.begin(), ::tolower);
+
+    // Remove punctuation
+    processed.erase(remove_if(processed.begin(), processed.end(), ::ispunct), processed.end());
+
+    return processed;
+}
+
+// Tokenize the text into words
+vector<string> tokenize(const string& text) {
+    vector<string> tokens;
+    stringstream ss(text);
+    string word;
+
+    while (ss >> word) {
+        tokens.push_back(word);
+    }
+
+    return tokens;
+}
+
+// Naive Bayes Classifier for Sentiment Analysis
+class NaiveBayesClassifier {
+    map<string, int> positiveWordCount;
+    map<string, int> negativeWordCount;
+    int positiveReviews = 0;
+    int negativeReviews = 0;
+
+public:
+    // Train the model with labeled data
+    void train(const vector<pair<string, string>>& reviews) {
+        for (const auto& review : reviews) {
+            string sentiment = review.first;
+            string text = preprocessText(review.second);
+            vector<string> tokens = tokenize(text);
+
+            if (sentiment == "positive") {
+                positiveReviews++;
+                for (const string& token : tokens) {
+                    positiveWordCount[token]++;
+                }
+            } else if (sentiment == "negative") {
+                negativeReviews++;
+                for (const string& token : tokens) {
+                    negativeWordCount[token]++;
+                }
+            }
+        }
+    }
+
+    // Calculate word frequency in a given map
+    int wordFrequency(const string& word, const map<string, int>& wordMap) {
+        if (wordMap.find(word) != wordMap.end()) {
+            return wordMap.at(word);
+        }
+        return 0;
+    }
+
+    // Predict the sentiment of the input review
+    string predict(const string& review) {
+        vector<string> tokens = tokenize(preprocessText(review));
+
+        double positiveProb = 1.0;
+        double negativeProb = 1.0;
+
+        // Use Laplace Smoothing
+        for (const string& token : tokens) {
+            positiveProb *= (wordFrequency(token, positiveWordCount) + 1.0) / (positiveReviews + 1.0);
+            negativeProb *= (wordFrequency(token, negativeWordCount) + 1.0) / (negativeReviews + 1.0);
+        }
+
+        // Compare the probabilities
+        return positiveProb > negativeProb ? "positive" : "negative";
+    }
+};
+
+int main() {
+    NaiveBayesClassifier classifier;
+
+    // Training data: pair of <"sentiment", "review">
+    vector<pair<string, string>> reviews = {
+        {"positive", "The room was clean and spacious"},
+        {"negative", "The hotel was dirty and noisy"},
+        {"positive", "The staff was friendly and helpful"},
+        {"negative", "The service was slow and unprofessional"},
+        {"positive", "Great location, I enjoyed my stay"},
+        {"negative", "The bed was uncomfortable, and the room smelled bad"}
+    };
+
+    // Train the classifier
+    classifier.train(reviews);
+
+    // Predict sentiment for new reviews
+    string newReview;
+    cout << "Enter a hotel review to analyze sentiment: ";
+    getline(cin, newReview);
+
+    string sentiment = classifier.predict(newReview);
+    cout << "Predicted Sentiment: " << sentiment << endl;
+
+    return 0;
+}
+
+
+
+
+## Code Explanation:
+1.	Preprocessing:
+-	The text is converted to lowercase and punctuation is removed using the preprocessText function.
+-	The text is then tokenized into individual words using the tokenize function.
+2.	Naive Bayes Classifier:
+-	The classifier uses the word frequency in positive and negative reviews.
+-	It assumes that word occurrence frequencies determine the sentiment of the review.
+-	train() method processes a labeled training dataset (a list of reviews and their sentiment labels) to count word occurrences.
+-	predict() method uses the trained model to compute probabilities for new, unseen reviews and predict whether the review is positive or negative.
+3.	Training and Testing:
+-	The model is trained on some sample hotel reviews.
+-	The user can input a new review, and the classifier will predict if it's positive or negative.
