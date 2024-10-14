@@ -1,0 +1,26 @@
+def dynamic_calculator():
+    print("Welcome to the Dynamic Calculator!")
+    print("You can perform operations like addition (+), subtraction (-), multiplication (*), division (/).")
+    print("Type 'exit' to quit the calculator.")
+    
+    while True:
+        # Taking input from the user
+        user_input = input("\nEnter your mathematical expression: ")
+        
+        # Check if the user wants to exit the calculator
+        if user_input.lower() == "exit":
+            print("Exiting the calculator. Goodbye!")
+            break
+        
+        try:
+            # Evaluate the expression using Python's eval() function
+            result = eval(user_input)
+            print(f"Result: {result}")
+        except ZeroDivisionError:
+            print("Error: Division by zero is not allowed.")
+        except Exception as e:
+            print(f"Error: Invalid expression. {e}")
+
+# Run the calculator
+if __name__ == "__main__":
+    dynamic_calculator()
